@@ -57,7 +57,7 @@ import org.osgi.service.component.annotations.ReferencePolicy;
  */
 @Component(immediate = true)
 public class JsExtScriptFileWatcher extends AbstractWatchService {
-    public static final String FILE_DIRECTORY = "automation" + File.separator + "jsr223x";
+    public static final String FILE_DIRECTORY = "automation" + File.separator + "jsr223-ext";
     private static final long INITIAL_DELAY = 25;
     private static final long RECHECK_INTERVAL = 20;
 
@@ -75,9 +75,9 @@ public class JsExtScriptFileWatcher extends AbstractWatchService {
 
     @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
     public void setVisibility(ScriptExtensionProvider visibility) {
-        System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        // this.manager = manager;
-        Object object = visibility.get("", "");
+        // System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        // // this.manager = manager;
+        // Object object = visibility.get("", "");
     }
 
     @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
@@ -89,12 +89,8 @@ public class JsExtScriptFileWatcher extends AbstractWatchService {
     @Activate
     public void activate() {
         super.activate();
-        System.err.println("111111111111111111 ExtScriptFileWatcher.activate()");
-        reloadAllFiles();
 
-        // for (File file : new File(pathToWatch).listFiles()) {
-        // importResources(file);
-        // }
+        reloadAllFiles();
 
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleWithFixedDelay(this::checkFiles, INITIAL_DELAY, RECHECK_INTERVAL, TimeUnit.SECONDS);
@@ -145,16 +141,18 @@ public class JsExtScriptFileWatcher extends AbstractWatchService {
 
     @Override
     protected void processWatchEvent(WatchEvent<?> event, Kind<?> kind, Path path) {
+
         File root = new File(pathToWatch);
         File file = path.toFile();
 
-        if (!file.getParent().equals(root.getPath())) {
-            reloadAllFiles();
-            System.out.println("ExtScriptFileWatcher.processWatchEvent()");
-            return;
-        }
-
         if (!file.isHidden()) {
+
+            // if the changed file is not a root file, reload all files
+            if (!file.getParent().equals(root.getPath())) {
+                reloadAllFiles();
+                return;
+            }
+
             try {
                 URL fileUrl = file.toURI().toURL();
                 if (kind.equals(ENTRY_DELETE)) {
@@ -265,8 +263,6 @@ public class JsExtScriptFileWatcher extends AbstractWatchService {
         }
 
         return "es5";
-
-        // return fileExtension;
     }
 
     private String getScriptIdentifier(URL url) {

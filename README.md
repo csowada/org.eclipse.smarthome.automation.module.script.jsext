@@ -15,7 +15,7 @@ Copy the jar file into the `openhab\addon` directory.
 
 ## Use
 
-Create a new folder ``jsr223x`` in your openhab ``conf`` folder. Place you script files in this directory. Keep in mind that only files in the root directory will be loaded. All files in the sub directories must be loaded by the ``required()`` function.
+Create a new folder ``jsr223-ext`` in your openhab ``conf`` folder. Place you script files in this directory. Keep in mind that only files in the root directory will be loaded. All files in the sub directories must be loaded by the ``required()`` function.
 
 ## License
 

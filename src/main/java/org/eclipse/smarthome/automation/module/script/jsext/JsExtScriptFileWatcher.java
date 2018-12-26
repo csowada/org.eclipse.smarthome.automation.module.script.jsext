@@ -10,7 +10,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.openhab.binding.nashorn;
+package org.eclipse.smarthome.automation.module.script.jsext;
 
 import static java.nio.file.StandardWatchEventKinds.*;
 
@@ -47,7 +47,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 
 /**
- * The {@link ExtScriptFileWatcher} watches the jsr223 directory for files. If a new/modified file is detected, the
+ * The {@link JsExtScriptFileWatcher} watches the jsr223 directory for files. If a new/modified file is detected, the
  * script
  * is read and passed to the {@link ScriptEngineManager}.
  *
@@ -56,20 +56,20 @@ import org.osgi.service.component.annotations.ReferencePolicy;
  *
  */
 @Component(immediate = true)
-public class ExtScriptFileWatcher extends AbstractWatchService {
+public class JsExtScriptFileWatcher extends AbstractWatchService {
     public static final String FILE_DIRECTORY = "automation" + File.separator + "jsr223x";
     private static final long INITIAL_DELAY = 25;
     private static final long RECHECK_INTERVAL = 20;
 
     private long earliestStart = System.currentTimeMillis() + INITIAL_DELAY * 1000;
 
-    private ScriptEngineManager manager;// = new ExtScriptEngineFactory();
+    private ScriptEngineManager manager;
     ScheduledExecutorService scheduler;
 
     private Map<String, Set<URL>> urlsByScriptExtension = new ConcurrentHashMap<>();
     private Set<URL> loaded = new HashSet<>();
 
-    public ExtScriptFileWatcher() {
+    public JsExtScriptFileWatcher() {
         super(ConfigConstants.getConfigFolder() + File.separator + FILE_DIRECTORY);
     }
 
@@ -89,10 +89,12 @@ public class ExtScriptFileWatcher extends AbstractWatchService {
     @Activate
     public void activate() {
         super.activate();
+        System.err.println("111111111111111111 ExtScriptFileWatcher.activate()");
+        reloadAllFiles();
 
-        for (File file : new File(pathToWatch).listFiles()) {
-            importResources(file);
-        }
+        // for (File file : new File(pathToWatch).listFiles()) {
+        // importResources(file);
+        // }
 
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleWithFixedDelay(this::checkFiles, INITIAL_DELAY, RECHECK_INTERVAL, TimeUnit.SECONDS);
@@ -127,7 +129,7 @@ public class ExtScriptFileWatcher extends AbstractWatchService {
 
     @Override
     protected boolean watchSubDirectories() {
-        return false;
+        return true;
     }
 
     @Override
@@ -135,9 +137,23 @@ public class ExtScriptFileWatcher extends AbstractWatchService {
         return new Kind<?>[] { ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY };
     }
 
+    protected void reloadAllFiles() {
+        for (File file : new File(pathToWatch).listFiles()) {
+            importResources(file);
+        }
+    }
+
     @Override
     protected void processWatchEvent(WatchEvent<?> event, Kind<?> kind, Path path) {
+        File root = new File(pathToWatch);
         File file = path.toFile();
+
+        if (!file.getParent().equals(root.getPath())) {
+            reloadAllFiles();
+            System.out.println("ExtScriptFileWatcher.processWatchEvent()");
+            return;
+        }
+
         if (!file.isHidden()) {
             try {
                 URL fileUrl = file.toURI().toURL();

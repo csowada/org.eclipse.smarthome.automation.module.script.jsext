@@ -27,6 +27,7 @@
 				<configuration>
 					<instructions>
 						<_include>META-INF/MANIFEST.MF</_include>
+						
 
 						<!-- <Export-Package>org.openhab.binding.nashorn,com.coveo.nashorn_modules</Export-Package> -->
 					</instructions>

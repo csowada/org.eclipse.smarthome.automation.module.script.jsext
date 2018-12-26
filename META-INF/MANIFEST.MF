@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Automatic-Module-Name: org.openhab.binding.nashorn
 Bundle-ManifestVersion: 2
-Bundle-Name: NASHORN Binding
-Bundle-SymbolicName: org.openhab.binding.nashorn;singleton:=true
+Bundle-Name: JS Automation Extension
+Bundle-SymbolicName: org.eclipse.smarthome.automation.module.script.jsext;singleton:=true
 Bundle-Vendor: openHAB
 Bundle-Version: 2.4.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -11,7 +11,10 @@ Import-Package:
  javax.script,
  org.apache.commons.io,
  org.eclipse.jdt.annotation;resolution:=optional,
+ org.eclipse.smarthome.automation.core.util,
+ org.eclipse.smarthome.automation.module.core.handler,
  org.eclipse.smarthome.automation.module.script,
+ org.eclipse.smarthome.automation.module.timer.handler,
  org.eclipse.smarthome.config.core,
  org.eclipse.smarthome.core.service,
  org.osgi.service.component.annotations;resolution:=optional,

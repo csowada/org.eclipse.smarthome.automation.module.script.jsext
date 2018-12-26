@@ -1,4 +1,4 @@
-package org.openhab.binding.nashorn;
+package org.eclipse.smarthome.automation.module.script.jsext;
 
 import java.io.File;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ import jdk.nashorn.api.scripting.NashornScriptEngine;
 
 @SuppressWarnings("restriction")
 @Component(service = ScriptEngineFactory.class)
-public class ExtScriptEngineFactory implements ScriptEngineFactory {
+public class JsExtScriptEngineFactory implements ScriptEngineFactory {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private ScriptEngineManager engineManager = new ScriptEngineManager();
@@ -60,8 +60,6 @@ public class ExtScriptEngineFactory implements ScriptEngineFactory {
     @Override
     public ScriptEngine createScriptEngine(String fileExtensionX) {
 
-        // NashornScriptEngine engine = (NashornScriptEngine) new ScriptEngineManager().getEngineByName("nashorn");
-
         String fileExtension = fileExtensionX.replace("es5", "js");
 
         ScriptEngine engine = engineManager.getEngineByExtension(fileExtension);
@@ -77,7 +75,7 @@ public class ExtScriptEngineFactory implements ScriptEngineFactory {
         if (engine instanceof NashornScriptEngine) {
 
             File file = new File(
-                    ConfigConstants.getConfigFolder() + File.separator + ExtScriptFileWatcher.FILE_DIRECTORY);
+                    ConfigConstants.getConfigFolder() + File.separator + JsExtScriptFileWatcher.FILE_DIRECTORY);
 
             FilesystemFolder rootFolder = FilesystemFolder.create(file, "UTF-8");
 

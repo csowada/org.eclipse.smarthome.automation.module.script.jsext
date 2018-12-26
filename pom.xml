@@ -3,14 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.openhab.binding</groupId>
-    <artifactId>org.openhab.binding.nashorn</artifactId>
+	<groupId>org.eclipse.smarthome.automation</groupId>
+    <artifactId>org.eclipse.smarthome.automation.module.script.jsext</artifactId>
 	<packaging>bundle</packaging>
-    <version>2.4.0-SNAPSHOT</version>
+    <version>2.5.0-SNAPSHOT</version>
 
-    <name>nashorn Binding</name>
-    
-	<!-- <parent> <groupId>org.openhab.binding</groupId> <artifactId>pom</artifactId> <version>2.4.0-SNAPSHOT</version> </parent> -->
+    <name>JavaScript Automation Extension</name>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>

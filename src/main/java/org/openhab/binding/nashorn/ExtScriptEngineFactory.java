@@ -30,9 +30,11 @@ public class ExtScriptEngineFactory implements ScriptEngineFactory {
 
     private ScriptEngineManager engineManager = new ScriptEngineManager();
 
+    private static String LANGUAGE = "es5";
+
     @Override
     public List<String> getLanguages() {
-        return Arrays.asList("js", "javascript", "application/javascript");
+        return Arrays.asList(LANGUAGE);
     }
 
     @Override
@@ -56,9 +58,12 @@ public class ExtScriptEngineFactory implements ScriptEngineFactory {
     }
 
     @Override
-    public ScriptEngine createScriptEngine(String fileExtension) {
+    public ScriptEngine createScriptEngine(String fileExtensionX) {
 
         // NashornScriptEngine engine = (NashornScriptEngine) new ScriptEngineManager().getEngineByName("nashorn");
+
+        String fileExtension = fileExtensionX.replace("es5", "js");
+
         ScriptEngine engine = engineManager.getEngineByExtension(fileExtension);
 
         if (engine == null) {

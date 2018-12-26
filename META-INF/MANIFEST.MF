@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Automatic-Module-Name: org.openhab.binding.nashorn
 Bundle-ManifestVersion: 2
-Bundle-Name: eBUS Binding
+Bundle-Name: NASHORN Binding
 Bundle-SymbolicName: org.openhab.binding.nashorn;singleton:=true
 Bundle-Vendor: openHAB
 Bundle-Version: 2.4.0.qualifier
@@ -10,11 +10,11 @@ Bundle-ClassPath: .
 Import-Package: 
  javax.script,
  org.apache.commons.io,
+ org.eclipse.jdt.annotation;resolution:=optional,
  org.eclipse.smarthome.automation.module.script,
  org.eclipse.smarthome.config.core,
  org.eclipse.smarthome.core.service,
- org.eclipse.jdt.annotation;resolution:=optional,
  org.osgi.service.component.annotations;resolution:=optional,
  org.slf4j
-Service-Component: OSGI-INF/*.xml
 Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.smarthome.automation.api;bundle-version="0.10.0"

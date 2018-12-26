@@ -36,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.smarthome.automation.module.script.ScriptEngineContainer;
 import org.eclipse.smarthome.automation.module.script.ScriptEngineManager;
+import org.eclipse.smarthome.automation.module.script.ScriptExtensionProvider;
 import org.eclipse.smarthome.config.core.ConfigConstants;
 import org.eclipse.smarthome.core.service.AbstractWatchService;
 import org.osgi.service.component.annotations.Activate;
@@ -62,7 +63,7 @@ public class ExtScriptFileWatcher extends AbstractWatchService {
 
     private long earliestStart = System.currentTimeMillis() + INITIAL_DELAY * 1000;
 
-    private ScriptEngineManager manager;
+    private ScriptEngineManager manager;// = new ExtScriptEngineFactory();
     ScheduledExecutorService scheduler;
 
     private Map<String, Set<URL>> urlsByScriptExtension = new ConcurrentHashMap<>();
@@ -70,6 +71,13 @@ public class ExtScriptFileWatcher extends AbstractWatchService {
 
     public ExtScriptFileWatcher() {
         super(ConfigConstants.getConfigFolder() + File.separator + FILE_DIRECTORY);
+    }
+
+    @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
+    public void setVisibility(ScriptExtensionProvider visibility) {
+        System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        // this.manager = manager;
+        Object object = visibility.get("", "");
     }
 
     @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
@@ -239,7 +247,10 @@ public class ExtScriptFileWatcher extends AbstractWatchService {
         if (fileExtension.equals("txt") || fileExtension.endsWith("~") || fileExtension.endsWith("swp")) {
             return null;
         }
-        return fileExtension;
+
+        return "es5";
+
+        // return fileExtension;
     }
 
     private String getScriptIdentifier(URL url) {

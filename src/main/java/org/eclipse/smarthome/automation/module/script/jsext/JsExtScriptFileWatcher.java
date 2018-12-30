@@ -36,7 +36,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.smarthome.automation.module.script.ScriptEngineContainer;
 import org.eclipse.smarthome.automation.module.script.ScriptEngineManager;
-import org.eclipse.smarthome.automation.module.script.ScriptExtensionProvider;
 import org.eclipse.smarthome.config.core.ConfigConstants;
 import org.eclipse.smarthome.core.service.AbstractWatchService;
 import org.osgi.service.component.annotations.Activate;
@@ -73,12 +72,12 @@ public class JsExtScriptFileWatcher extends AbstractWatchService {
         super(ConfigConstants.getConfigFolder() + File.separator + FILE_DIRECTORY);
     }
 
-    @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
-    public void setVisibility(ScriptExtensionProvider visibility) {
-        // System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        // // this.manager = manager;
-        // Object object = visibility.get("", "");
-    }
+    // @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
+    // public void setVisibility(ScriptExtensionProvider visibility) {
+    // // System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    // // // this.manager = manager;
+    // // Object object = visibility.get("", "");
+    // }
 
     @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
     public void setScriptEngineManager(ScriptEngineManager manager) {
@@ -93,7 +92,7 @@ public class JsExtScriptFileWatcher extends AbstractWatchService {
         reloadAllFiles();
 
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleWithFixedDelay(this::checkFiles, INITIAL_DELAY, RECHECK_INTERVAL, TimeUnit.SECONDS);
+        scheduler.scheduleWithFixedDelay(this::checkFiles, 0, RECHECK_INTERVAL, TimeUnit.SECONDS);
     }
 
     @Override

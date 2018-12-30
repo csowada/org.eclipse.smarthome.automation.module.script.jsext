@@ -81,11 +81,6 @@ public class JsExtScriptEngineFactory implements ScriptEngineFactory {
 
             try {
                 Require.enable((NashornScriptEngine) engine, rootFolder);
-
-                // engine.eval("var global = this;\n" + "var window = this;\n" + "var process = {env: {}};\n" + "\n"
-                // + "var console = {};\n" + "console.debug = print;\n" + "console.warn = print;\n"
-                // + "console.loggy = print;");
-
             } catch (ScriptException e) {
                 logger.error("error!", e);
             }

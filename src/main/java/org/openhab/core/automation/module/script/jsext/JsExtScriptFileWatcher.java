@@ -10,7 +10,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.eclipse.smarthome.automation.module.script.jsext;
+package org.openhab.core.automation.module.script.jsext;
 
 import static java.nio.file.StandardWatchEventKinds.*;
 

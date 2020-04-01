@@ -1,0 +1,5 @@
+Bundle-SymbolicName: ${project.artifactId}
+DynamicImport-Package: *
+Import-Package: \
+	jdk.nashorn.*;resolution:=optional, \
+	*

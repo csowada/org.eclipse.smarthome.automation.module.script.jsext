@@ -1,39 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.eclipse.smarthome.automation</groupId>
-    <artifactId>org.eclipse.smarthome.automation.module.script.jsext</artifactId>
-	<packaging>bundle</packaging>
-    <version>2.5.0-SNAPSHOT</version>
+  <modelVersion>4.0.0</modelVersion>
 
-    <name>JavaScript Automation Extension</name>
+  <parent>
+    <groupId>org.openhab.core.bundles</groupId>
+    <artifactId>org.openhab.core.reactor.bundles</artifactId>
+    <version>2.5.0</version>
+  </parent>
 
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
+  <artifactId>org.openhab.core.automation.module.script.jsext</artifactId>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>3.5.1</version>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<_include>META-INF/MANIFEST.MF</_include>
-						
+  <name>openHAB Core :: Bundles :: Automation Script Modules EXT</name>
 
-						<!-- <Export-Package>org.openhab.binding.nashorn,com.coveo.nashorn_modules</Export-Package> -->
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+  <dependencies>
+    <dependency>
+      <groupId>org.openhab.core.bundles</groupId>
+      <artifactId>org.openhab.core.automation.module.script</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 
-	<!-- <dependencies> <dependency> <groupId>com.coveo</groupId> <artifactId>nashorn-commonjs-modules</artifactId> <version>1.0.9</version> 
-		</dependency> </dependencies> -->
 </project>

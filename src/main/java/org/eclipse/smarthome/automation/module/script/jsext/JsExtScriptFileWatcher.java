@@ -1,8 +1,8 @@
 /**
- * Copyright (c) 2014,2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2010-2019 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
- * information regarding copyright ownership.
+ * information.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -34,16 +34,23 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.smarthome.automation.module.script.ScriptEngineContainer;
-import org.eclipse.smarthome.automation.module.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.eclipse.smarthome.config.core.ConfigConstants;
 import org.eclipse.smarthome.core.service.AbstractWatchService;
+import org.openhab.core.automation.module.script.ScriptEngineContainer;
+import org.openhab.core.automation.module.script.ScriptEngineManager;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
+
+import com.coveo.nashorn_modules.FilesystemFolder;
+import com.coveo.nashorn_modules.Require;
+
+import jdk.nashorn.api.scripting.NashornScriptEngine;
 
 /**
  * The {@link JsExtScriptFileWatcher} watches the jsr223 directory for files. If a new/modified file is detected, the
@@ -54,6 +61,7 @@ import org.osgi.service.component.annotations.ReferencePolicy;
  * @author Kai Kreuzer - improved logging and removed thread pool
  *
  */
+@SuppressWarnings("restriction")
 @Component(immediate = true)
 public class JsExtScriptFileWatcher extends AbstractWatchService {
     public static final String FILE_DIRECTORY = "automation" + File.separator + "jsr223-ext";
@@ -192,6 +200,27 @@ public class JsExtScriptFileWatcher extends AbstractWatchService {
                                 getScriptIdentifier(url));
 
                         if (container != null) {
+
+                            logger.info("Script Engine Instance '{}'",
+                                    container.getScriptEngine().getClass().getSimpleName());
+
+                            logger.info("Script Engine Factory '{}'",
+                                    container.getFactory().getClass().getSimpleName());
+
+                            if (container.getScriptEngine() instanceof NashornScriptEngine) {
+
+                                File file = new File(ConfigConstants.getConfigFolder() + File.separator
+                                        + JsExtScriptFileWatcher.FILE_DIRECTORY);
+
+                                FilesystemFolder rootFolder = FilesystemFolder.create(file, "UTF-8");
+
+                                try {
+                                    Require.enable((NashornScriptEngine) container.getScriptEngine(), rootFolder);
+                                } catch (ScriptException e) {
+                                    logger.error("error!", e);
+                                }
+                            }
+
                             manager.loadScript(container.getIdentifier(), reader);
                             loaded.add(url);
                             logger.debug("Script loaded: {}", fileName);
@@ -261,7 +290,7 @@ public class JsExtScriptFileWatcher extends AbstractWatchService {
             return null;
         }
 
-        return "es5";
+        return JsExtScriptEngineFactory.LANGUAGE;
     }
 
     private String getScriptIdentifier(URL url) {

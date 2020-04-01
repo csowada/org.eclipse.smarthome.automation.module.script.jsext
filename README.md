@@ -17,6 +17,13 @@ Copy the jar file into the `openhab\addon` directory.
 
 Create a new folder ``jsr223-ext`` in your openhab ``conf`` folder. Place you script files in this directory. Keep in mind that only files in the root directory will be loaded. All files in the sub directories must be loaded by the ``required()`` function.
 
+## Compile
+
+* Clone the official ``openhab-core`` repository on your computer and switch to the ``2.5.0`` tag.
+* Cloine this repository to the ``bundles`` directory of the ``openhab-core`` project.
+* Add the module ``org.openhab.core.automation.module.script.jsext`` to ``bundles/pomx.xml``
+* Build with ``mvn install`` from root directory
+
 ## License
 
 EPL

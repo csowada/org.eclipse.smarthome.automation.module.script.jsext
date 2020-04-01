@@ -80,13 +80,6 @@ public class JsExtScriptFileWatcher extends AbstractWatchService {
         super(ConfigConstants.getConfigFolder() + File.separator + FILE_DIRECTORY);
     }
 
-    // @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
-    // public void setVisibility(ScriptExtensionProvider visibility) {
-    // // System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    // // // this.manager = manager;
-    // // Object object = visibility.get("", "");
-    // }
-
     @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
     public void setScriptEngineManager(ScriptEngineManager manager) {
         this.manager = manager;
@@ -290,7 +283,7 @@ public class JsExtScriptFileWatcher extends AbstractWatchService {
             return null;
         }
 
-        return JsExtScriptEngineFactory.LANGUAGE;
+        return fileExtension;
     }
 
     private String getScriptIdentifier(URL url) {

@@ -3,3 +3,5 @@ DynamicImport-Package: *
 Import-Package: \
 	jdk.nashorn.*;resolution:=optional, \
 	*
+Private-Package: \
+    com.coveo.nashorn_modules.*

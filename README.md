@@ -11,7 +11,7 @@ This automation extension adds a extended JavaScript environment to openHAB. The
 
 ### ZIP file
 
-Copy the jar file into the `openhab\addon` directory.
+Download the latest release from [here](https://github.com/csowada/org.eclipse.smarthome.automation.module.script.jsext/releases/latest) and copy the jar file into the `openhab\addon` directory.
 
 ## Use
 
